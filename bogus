@@ -1,0 +1,7 @@
+#!/bin/bash
+
+let "z=19/5"
+echo "$z"
+
+let "x=19%5"
+echo "$x"
