@@ -1,0 +1,19 @@
+rofi.modi:		window,run,ssh,drun
+rofi.color-enabled:	true
+rofi.show-icons:	true
+
+!		   BG      	  Border         Separator
+rofi.color-window: argb:D92f343f, argb:D92b303b, argb:002f343f
+
+!		   BG     	  FG	         BG-Alt         HL-BG          HL-FG
+rofi.color-normal: argb:002f343f, argb:FFf3f4f5, argb:002f343f, argb:D92b303b, argb:FFf3f4f5
+
+rofi.font: 		Noto Mono 18
+rofi.lines:		3
+rofi.eh:		1
+rofi.width:		100
+rofi.location:		2
+rofi.line-margin:	12
+rofi.bw:		6
+rofi.yoffset:		-6
+
