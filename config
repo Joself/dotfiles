@@ -1,0 +1,197 @@
+set $mod Mod4
+
+font pango:System San Francisco Display 0
+
+floating_modifier $mod
+
+# start a terminal
+bindsym $mod+Return exec termite
+
+# kill focused window
+bindcode $mod+Shift+24 kill
+
+# change focus
+bindcode $mod+44	focus left
+bindcode $mod+45	focus down
+bindcode $mod+46	focus up
+bindcode $mod+47	focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left	focus left
+bindsym $mod+Down	focus down
+bindsym $mod+Up		focus up
+bindsym $mod+Right	focus right
+
+# move focused window
+bindcode $mod+Shift+44	move left
+bindcode $mod+Shift+45	move down
+bindcode $mod+Shift+46	move up
+bindcode $mod+Shift+47	move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindcode $mod+43 split h
+
+# split in vertical orientation
+bindcode $mod+55 split v
+
+# enter fullscreen mode for the focused container
+bindcode $mod+41 fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindcode $mod+39 layout stacking
+bindcode $mod+25 layout tabbed
+bindcode $mod+26 layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindcode $mod+31 focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
+
+# Workspace variables
+set $ws1 1
+set $ws2 2
+set $ws3 3
+set $ws4 4
+set $ws5 5
+set $ws6 6
+set $ws7 7
+set $ws8 8
+set $ws9 9
+set $ws10 10
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+# Keep apps in the right workspaces on launch
+assign [class="Firefox"] $ws2
+for_window [class="^Spotify$"] move to workspace $ws3
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+# Resizing
+bindsym $mod+control+Left	resize shrink width 10 px or 10 ppt
+bindsym $mod+control+Down	resize grow height 10 px or 10 ppt
+bindsym $mod+control+Up		resize shrink height 10 px or 10 ppt
+bindsym $mod+control+Right	resize grow width 10 px or 10 ppt
+
+# Colours
+set $bg-color		 #4f000d
+set $inactive-bg-color	 #2f343f
+set $text-color		 #f3f4f5
+set $inactive-text-color #676E7D
+set $urgent-bg-color	 #E53935
+
+# Window Colours
+#Class			Border			Background		Text			Indicator
+client.focused		$bg-color		$bg-color		$bg-color		#00ff00
+client.unfocused	$inactive-bg-color	$inactive-bg-color	$inactive-bg-color	#00ff00
+client.focused_inactive	$inactive-bg-color	$inactive-bg-color	$inactive-bg-color	#00ff00
+client.urgent		$urgent-bg-color	$urgent-bg-color	$urgent-bg-color	#00ff00
+
+# Hide Indicator
+hide_edge_borders both
+
+# Run Rofi
+bindcode $mod+40 exec rofi -show run
+
+# Pulse Audio Controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +5%	 #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -5%	 #decrease sound volume
+bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-mute   1 toggle #mute sound
+
+# Media Player Controls
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+# Startup
+exec firefox
+exec discord
+exec messengerfordesktop
+exec redshift
+exec compton -f --config ~/.config/compton.conf
+exec spotify
+exec_always --no-startup-id ~/.config/i3/polybar.sh &
+
+
+# Fix monitor orientation and placement
+exec xrandr \
+--output DP-3    --primary --mode 1920x1080 --pos 1050x506 --rotate normal \
+--output DVI-D-0           --mode 1920x1080 --pos 2970x506 --rotate normal \
+--output DP-1              --mode 1680x1050 --pos 0x0      --rotate left   \
+--output DP-0    --off \
+--output DP-2    --off \
+--output DP-4    --off \
+--output DP-5    --off \
+--output HDMI-0  --off
+
+# Assign workspaces to monitors
+workspace $ws1 output DP-3
+workspace $ws2 output DVI-D-0
+workspace $ws3 output DP-1
+
+# Set wallpaper on i3 reset
+exec_always feh --bg-scale /home/joseph/Pictures/GYHtxD0.png
+
+# Power menu	 
+set $mode_sys (Enter) (S) (H) (R) (L)
+
+mode "$mode_sys" {
+	bindsym		Return	exec --no-startup-id i3exit shutdown,	mode "default"
+	bindcode	39	exec --no-startup-id i3exit suspend,	mode "default"
+	bindcode	43	exec --no-startup-id i3exit hibernate,	mode "default"
+	bindcode	27	exec --no-startup-id i3exit reboot,	mode "default"
+	bindcode	46	exec --no-startup-id i3exit logout,	mode "default"
+
+	bindsym Escape	mode "default"
+}
+bindcode $mod+Control+53 mode "$mode_sys"
+
+# Keyboard switcher
+exec --no-startup-id setxkbmap -layout se
+exec --no-startup-id exec mv ~/.config/polybar/dvorak ~/.config/polybar/qwerty
+bindcode $mod+65 exec ~/scripts/keylay.sh 
+
+# i3-gaps
+gaps inner 10
+gaps outer 10
+
+# Remove window bar
+for_window [class="^.*"] border pixel 0
